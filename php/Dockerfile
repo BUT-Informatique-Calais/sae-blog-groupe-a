@@ -7,6 +7,8 @@ RUN curl -sSLf -o /usr/local/bin/install-php-extensions \
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN composer install --no-interaction
+#COPY . /var/www/html
 
 WORKDIR /var/www/html
+
+RUN #composer install --no-interaction
