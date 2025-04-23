@@ -1,20 +1,27 @@
 services:
-  apache:
-    container_name: apache_blog
-    build:
-      context: ./apache
-    ports:
-      - "8080:80"
-    volumes:
-      - .:/var/www/html
-    depends_on:
-      - php
-
   php:
     container_name: php_blog
     build:
       context: ./php
     volumes:
-      - .:/var/www/html
-    expose:
-      - "9000"
+      - ./:/var/www/html
+    networks:
+      - blog
+  apache:
+    container_name: apache_blog
+    build:
+      context: ./apache
+    ports:
+      - "8888:80"
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - php
+    networks:
+      - blog
+
+
+
+networks:
+  blog:
+    driver: bridge
