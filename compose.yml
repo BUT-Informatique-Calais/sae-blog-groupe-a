@@ -75,6 +75,7 @@ services:
     tty: true
 
 volumes:
+  node:
   database_data:
 
 networks:
