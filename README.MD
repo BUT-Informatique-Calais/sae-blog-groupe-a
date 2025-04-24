@@ -4,10 +4,10 @@ Le projet est un blog en symfony.
 
 Stack technique :
 
-- PHP
-- Mailpit
-- Apache
-- DB
+- PHP            
+- Mailpit       http://localhost:8025
+- Apache        http://locahost:8888
+- DB            http://localhost:8080
 - Node
 
 Groupe A => DB : MySQL
