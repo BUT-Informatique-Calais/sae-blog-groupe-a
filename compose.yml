@@ -1,4 +1,6 @@
 services:
+
+  # service php
   php:
     container_name: php_blog
     build:
@@ -7,6 +9,8 @@ services:
       - ./:/var/www/html
     networks:
       - blog
+
+  #  service apache
   apache:
     container_name: apache_blog
     build:
@@ -20,7 +24,58 @@ services:
     networks:
       - blog
 
+  # Service Mailpit
+  mailpit:
+    image: axllent/mailpit
+    container_name: mailpit
+    ports:
+      - ":8025"
+      - "1025:1025"
+    restart: unless-stopped
 
+  # Service MySQL
+  database:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DB:-app}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-!ChangeMe!}
+      MYSQL_USER: ${MYSQL_USER:-app}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-!ChangeMe!}
+    ports:
+      - "3306:3306"
+    volumes:
+      - database_data:/var/lib/mysql:rw
+    restart: always
+    networks:
+      - blog
+
+  # Service phpMyAdmin pour gérer MySQL
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: mysql-db       # Nom du service MySQL
+      PMA_USER: app            # Utilisateur MySQL
+      PMA_PASSWORD: "!ChangeMe!" # Mot de passe de l'utilisateur MySQL
+    ports:
+      - "8080:80"  # Expose phpMyAdmin sur le port 8080
+    restart: always
+    networks:
+      - blog
+
+  app:
+    image: node:18
+    container_name: node-app
+    volumes:
+      - node:/usr/src/app
+    working_dir: /usr/src/app
+    command: node
+    stdin_open: true
+    tty: true
+
+volumes:
+  database_data:
 
 networks:
   blog:
