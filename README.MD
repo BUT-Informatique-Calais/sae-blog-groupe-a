@@ -5,12 +5,12 @@ Le projet est un blog en symfony.
 Stack technique :
 
 - PHP            
-- Mailpit       http://localhost:8025
-- Apache        http://locahost:8888
-- DB            http://localhost:8080
-- Node          docker exec -it node-app sh
-                #node
-                >
+- Mailpit       : http://localhost:8025
+- Apache        : http://locahost:8888
+- DB            : http://localhost:8080
+- Node          : docker exec -it node-app sh
+                : #node
+                : >
 
 Groupe A => DB : MySQL
 Groupe B => DB : PostgreSQL
