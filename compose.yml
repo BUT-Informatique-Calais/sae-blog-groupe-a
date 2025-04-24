@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
   # Service Mailpit (si vous en avez besoin)
   mailpit:
@@ -22,7 +20,7 @@ services:
     ports:
       - "3306:3306"  # Expose MySQL port
     volumes:
-      - database_data:/var/lib/mysql:rw
+      - database_data:/var/lib/mysql:rw                   
     restart: always
 
   # Service phpMyAdmin pour gérer MySQL via un navigateur
@@ -37,5 +35,28 @@ services:
       - "8080:80"  # Expose phpMyAdmin sur le port 8080
     restart: always
 
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    restart: always
+    hostname: 'gitlab.example.com'
+    ports:
+      - "8929:80"
+    volumes:
+      - './config:/etc/gitlab'
+      - './logs:/var/log/gitlab'
+      - './data:/var/opt/gitlab'
+      
+  app:
+    image: node:18
+    container_name: node-app
+    volumes:
+      - node:/usr/src/app
+    working_dir: /usr/src/app
+    command: node
+    stdin_open: true
+    tty: true
+
+
 volumes:
+  node:
   database_data:
